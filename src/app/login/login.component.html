@@ -1,1 +1,41 @@
-<p>login works!</p>
+<div class="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+  <div class="flex items-center justify-center py-12">
+    <form class="mx-auto grid w-[350px] gap-6">
+      <div class="grid gap-2 text-center">
+        <h1 class="text-3xl font-bold">Login</h1>
+        <p class="text-balance text-muted-foreground">
+          Enter your email below to login to your account
+        </p>
+      </div>
+      <div class="grid gap-4">
+        <div class="grid gap-2">
+          <app-label label="Email" target="email"></app-label>
+          <app-input name="username" type="email" placeholder="m@example.com" [required]="true" />
+        </div>
+        <div class="grid gap-2">
+          <app-label label="Password" target="password"></app-label>
+          <app-input name="password" type="password" placeholder="Password" [required]="true" />
+        </div>
+
+        <p class="text-red-400 block">{{errorMessage}}</p>
+        <app-button label="Login" size="w-full h-10"></app-button>
+      </div>
+
+      <div class="mt-4 text-center text-sm">
+        Don&apos;t have an account?
+        <a [routerLink]="['/register']" class="underline">
+        Sign up
+        </a>
+      </div>
+    </form>
+  </div>
+  <div class="hidden bg-muted lg:block">
+    <img
+      ngSrc="/wallhalla-65-1280x720.jpg"
+      alt="Image"
+      width="1920"
+      height="1080"
+      class="h-full w-full object-cover"
+    />
+  </div>
+</div>
