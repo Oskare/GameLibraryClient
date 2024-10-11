@@ -1,0 +1,11 @@
+<button
+  [ngClass]="[color, size, 'whitespace-nowrap text-white justify-center text-sm font-medium rounded-md items-center inline-flex']"
+  [disabled]="disabled"
+  (click)="handleClick()"
+  class="transition duration-300 ease-in-out hover:opacity-80">
+
+  <!-- Projected SVG or other HTML content -->
+  <ng-content></ng-content>
+
+  <span>{{ label }}</span>
+</button>
