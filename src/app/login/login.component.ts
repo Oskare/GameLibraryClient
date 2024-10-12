@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {NgOptimizedImage} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {ButtonComponent} from '../../ui/button/button.component';
-import {Library, LucideAngularModule} from 'lucide-angular';
+import {LucideAngularModule} from 'lucide-angular';
 import {LabelComponent} from '../../ui/label/label.component';
-import {InputComponent} from '../../ui/input/input.component';
+import {AuthService} from '../services/auth.service';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -15,14 +16,24 @@ import {InputComponent} from '../../ui/input/input.component';
     ButtonComponent,
     LucideAngularModule,
     LabelComponent,
-    InputComponent
+    CommonModule,
+    ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  authService: AuthService = inject(AuthService);
 
-  errorMessage: string = "";
-  protected readonly console = console;
-  protected readonly Library = Library;
+  signInForm: FormGroup = new FormGroup({
+    username: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required]),
+  });
+
+  login() {
+    this.authService.signIn(
+      this.signInForm.value.username,
+      this.signInForm.value.password
+    );
+  }
 }

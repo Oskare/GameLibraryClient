@@ -17,6 +17,7 @@ export class ButtonComponent {
   @Input() color: string = 'bg-[#0f172ae6] hover:bg-[#0f172ae6]/90';
   @Input() size: string = 'py-2 px-8 h-10';     // Default size
   @Input() disabled: boolean = false;      // Disabled state
+  @Input() type: string = 'button';      // Type
 
   @Output() onClick: EventEmitter<void> = new EventEmitter();
 

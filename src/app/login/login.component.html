@@ -1,6 +1,6 @@
 <div class="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
   <div class="flex items-center justify-center py-12">
-    <form class="mx-auto grid w-[350px] gap-6">
+    <form [formGroup]="signInForm" (submit)="login()" class="mx-auto grid w-[350px] gap-6">
       <div class="grid gap-2 text-center">
         <h1 class="text-3xl font-bold">Login</h1>
         <p class="text-balance text-muted-foreground">
@@ -9,22 +9,35 @@
       </div>
       <div class="grid gap-4">
         <div class="grid gap-2">
-          <app-label label="Email" target="email"></app-label>
-          <app-input name="username" type="email" placeholder="m@example.com" [required]="true" />
+          <app-label label="Email" target="username"></app-label>
+          <input
+            formControlName="username"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            type="email"
+            placeholder="m@example.com"
+          />
         </div>
         <div class="grid gap-2">
           <app-label label="Password" target="password"></app-label>
-          <app-input name="password" type="password" placeholder="Password" [required]="true" />
+          <input
+            formControlName="password"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            type="password"
+            placeholder="Password"
+          />
         </div>
-
-        <p class="text-red-400 block">{{errorMessage}}</p>
-        <app-button label="Login" size="w-full h-10"></app-button>
+        <app-button
+          label="Login"
+          size="w-full h-10"
+          type="submit"
+          [disabled]="this.signInForm.invalid"
+        ></app-button>
       </div>
 
       <div class="mt-4 text-center text-sm">
         Don&apos;t have an account?
         <a [routerLink]="['/register']" class="underline">
-        Sign up
+          Sign up
         </a>
       </div>
     </form>
@@ -33,8 +46,8 @@
     <img
       ngSrc="/wallhalla-65-1280x720.jpg"
       alt="Image"
-      width="1920"
-      height="1080"
+      width="1280"
+      height="720"
       class="h-full w-full object-cover"
     />
   </div>
