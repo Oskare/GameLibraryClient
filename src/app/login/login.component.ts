@@ -6,6 +6,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {LabelComponent} from '../../ui/label/label.component';
 import {AuthService} from '../services/auth.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,12 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  authService: AuthService = inject(AuthService);
+  errorMessage: string = '';
+
+  constructor(private authService: AuthService,
+              private router: Router
+  ) {
+  }
 
   signInForm: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.email]),
@@ -34,6 +40,14 @@ export class LoginComponent {
     this.authService.signIn(
       this.signInForm.value.username,
       this.signInForm.value.password
-    );
+    ).subscribe({
+      next: async () => {
+        await this.router.navigateByUrl("/items");
+      },
+      error: err => {
+        this.errorMessage = 'Could not log in. Please try again later.';
+        console.error('error', err);
+      }
+    })
   }
 }
