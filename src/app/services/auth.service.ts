@@ -7,18 +7,28 @@ import {HttpClient} from '@angular/common/http';
 })
 export class AuthService {
 
-  signInUrl: string = environment.baseUrl + '/auth/login?useCookies=true';
-
   constructor(private http: HttpClient) {}
 
   signIn(username: string, password: string) {
     return this.http.post(
-      this.signInUrl,
+      environment.baseUrl + '/auth/login?useCookies=true',
       JSON.stringify({email: username, password}),
       {
         headers: {
           "Content-Type": "application/json",
         }
       })
+  }
+
+  register(name: string, email: string, password: string) {
+    return this.http.post(
+      environment.baseUrl + '/auth/register',
+      JSON.stringify({email, password}),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }
+    )
   }
 }

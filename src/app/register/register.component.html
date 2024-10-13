@@ -1,1 +1,68 @@
-<p>register works!</p>
+<div class="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+  <div class="flex items-center justify-center py-12">
+    <form [formGroup]="registerForm" (submit)="register()" class="mx-auto grid w-[350px] gap-6">
+      <div class="grid gap-2 text-center">
+        <h1 class="text-3xl font-bold">Sign up</h1>
+        <p class="text-balance text-muted-foreground">
+          Enter your information to create an account
+        </p>
+      </div>
+      <div class="grid gap-4">
+        <div class="grid gap-2">
+          <app-label label="Name" target="name"></app-label>
+          <input
+            formControlName="name"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            placeholder="Firstname Lastname"
+          />
+        </div>
+        <div class="grid gap-2">
+          <app-label label="Email" target="username"></app-label>
+          <input
+            formControlName="username"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            type="email"
+            placeholder="m@example.com"
+          />
+        </div>
+        <div class="grid gap-2">
+          <app-label label="Password" target="password"></app-label>
+          <input
+            formControlName="password"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            type="password"
+            placeholder="Password"
+          />
+        </div>
+        <p class="text-red-400 block">{{ errorMessage }}</p>
+        <div *ngIf="accountCreated"
+             class="text-center">
+          Account created, go to <a [routerLink]="['/login']" class="underline">Login</a>
+        </div>
+        <app-button *ngIf="!accountCreated"
+                    label="Create an account"
+                    size="w-full h-10"
+                    type="submit"
+                    [disabled]="this.registerForm.invalid"
+        ></app-button>
+      </div>
+
+      <div *ngIf="!accountCreated"
+           class="mt-4 text-center text-sm">
+        Already have an account?
+        <a [routerLink]="['/login']" class="underline">
+          Sign in
+        </a>
+      </div>
+    </form>
+  </div>
+  <div class="hidden bg-muted lg:block">
+    <img
+      ngSrc="/wallhalla-65-1280x720.jpg"
+      alt="Image"
+      width="1280"
+      height="720"
+      class="h-full w-full object-cover"
+    />
+  </div>
+</div>
