@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +9,16 @@ export class AuthService {
 
   signInUrl: string = environment.baseUrl + '/auth/login?useCookies=true';
 
-  async signIn(username: string, password: string) {
+  constructor(private http: HttpClient) {}
 
-    await fetch(this.signInUrl, {
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify({email: username, password}),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  signIn(username: string, password: string) {
+    return this.http.post(
+      this.signInUrl,
+      JSON.stringify({email: username, password}),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
   }
 }
