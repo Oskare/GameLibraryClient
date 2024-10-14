@@ -4,7 +4,9 @@
       <div class="flex items-center">
         <button
           class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9 mr-2 md:hidden"
-          type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:Rlfkq:" data-state="closed">
+          type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:Rlfkq:" data-state="closed"
+          id="mobile-menu-btn"
+          (click)="setMobileMenuOpen(true)">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                class="lucide lucide-menu h-6 w-6">
@@ -13,7 +15,12 @@
             <line x1="4" x2="20" y1="18" y2="18"></line>
           </svg>
         </button>
-        <h1 class="text-lg font-semibold">Angular Game Library</h1></div>
+        <h1 class="text-lg font-semibold">
+          <a [routerLink]="['/home']">
+            Angular Game Library
+          </a>
+        </h1>
+      </div>
       <div class="flex items-center space-x-4">
         <app-profile-dropdown></app-profile-dropdown>
       </div>
@@ -81,3 +88,79 @@
   </div>
 </div>
 
+
+<div data-state="open"
+     class="md:hidden fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+     style="pointer-events: auto;"
+     [ngClass]="[mobileMenuOpen ? '' : 'hidden']"
+     data-aria-hidden="true"
+     aria-hidden="true">
+</div>
+
+<div role="dialog"
+     id="mobile-menu"
+     data-state="open"
+     [ngClass]="[mobileMenuOpen ? '' : 'hidden']"
+     class="md:hidden bg-slate-100 fixed z-50 gap-4 bg-background shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out inset-y-0 left-0 h-full border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm w-56 p-0"
+     tabindex="-1"
+     style="pointer-events: auto;">
+  <button type="button"
+          class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+          (click)="setMobileMenuOpen(false)">
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4">
+      <path
+        d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+        fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+    </svg>
+    <span class="sr-only">Close</span></button>
+  <div class="flex h-full flex-col">
+    <div class="px-4 py-6"></div>
+    <div dir="ltr" class="relative overflow-hidden h-[calc(100vh-4rem)] py-6 pl-6 pr-6"
+         style="position: relative; --radix-scroll-area-corner-width: 0px; --radix-scroll-area-corner-height: 0px;">
+      <style>[data-radix-scroll-area-viewport] {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      [data-radix-scroll-area-viewport]::-webkit-scrollbar {
+        display: none
+      }</style>
+      <div data-radix-scroll-area-viewport="" class="h-full w-full rounded-[inherit]" style="overflow: hidden scroll;">
+        <div style="min-width: 100%; display: table;">
+          <div class="space-y-4"><h2 class="mb-2 px-4 text-lg font-semibold tracking-tight">Menu</h2>
+            <div class="space-y-1">
+              <a
+                class="inline-flex items-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-9 px-4 py-2 w-full justify-start bg-slate-300"
+                routerLinkActive="bg-slate-300 text-secondary-foreground shadow-sm"
+                [routerLink]="['/items']"
+                (click)="menuClick()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-house mr-2 h-4 w-4">
+                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                  <path
+                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                </svg>
+                Items
+              </a>
+              <a
+                class="inline-flex items-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 w-full justify-start"
+                routerLinkActive="bg-slate-300 text-secondary-foreground shadow-sm"
+                [routerLink]="['/settings']"
+                (click)="menuClick()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-settings mr-2 h-4 w-4">
+                  <path
+                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                Settings</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
