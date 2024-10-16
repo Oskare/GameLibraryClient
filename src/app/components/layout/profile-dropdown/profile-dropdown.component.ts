@@ -1,7 +1,7 @@
 import {Component, HostListener} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {ButtonComponent} from '../../../ui/button/button.component';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
 
 @Component({

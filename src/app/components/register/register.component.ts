@@ -4,7 +4,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {LabelComponent} from '../../ui/label/label.component';
 import {NgIf, NgOptimizedImage} from '@angular/common';
 import {Router, RouterLink} from '@angular/router';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',

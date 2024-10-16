@@ -4,7 +4,7 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {ButtonComponent} from '../../ui/button/button.component';
 import {LucideAngularModule} from 'lucide-angular';
 import {LabelComponent} from '../../ui/label/label.component';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 

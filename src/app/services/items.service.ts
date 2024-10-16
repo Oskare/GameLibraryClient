@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {ItemPage} from '../types';
+import {ItemPage} from '../models/item';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
