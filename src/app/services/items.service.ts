@@ -14,8 +14,13 @@ export class ItemsService {
   constructor(private http: HttpClient) {
   }
 
-  // TODO: Search, pagination
-  getItems(): Observable<ItemPage> {
-    return this.http.get<ItemPage>(this.itemsUrl);
+  getItems(search: string | null, page: number | null): Observable<ItemPage> {
+    let params = [];
+    if (search) params.push(['search', search]);
+    if (page) params.push(['page', page.toString()]);
+
+    const newParams = new URLSearchParams(params);
+
+    return this.http.get<ItemPage>(this.itemsUrl + "?" + newParams.toString());
   }
 }

@@ -1,11 +1,170 @@
-<p>items works!</p>
+<div class="flex flex-col space-y-1.5 p-6">
+  <h3 class="font-semibold leading-none tracking-tight">Items</h3>
+  <p class="text-sm text-muted-foreground">A list of awesome items!</p>
+</div>
+<div class="p-6 py-0">
+  <div class="mb-4 flex items-center justify-between gap-2">
+    <div class="relative flex flex-1 flex-shrink-0">
+      <label for="search" class="sr-only">Search</label>
+      <input
+        [formControl]="searchControl"
+        id="search"
+        class="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+        placeholder="Search items...">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+           stroke="currentColor" aria-hidden="true" data-slot="icon"
+           class="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+      </svg>
+    </div>
+    <button
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+      type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:R9kvfafkq:"
+      data-state="closed">Create New Item
+    </button>
+  </div>
+</div>
 
 @defer {
   @if (itemsPage) {
-    @for (item of itemsPage.items; track item.id) {
-      {{ item.name }}
-    }
+    <div class="p-6 pt-0 mb-4 flex items-center justify-between gap-2">
+      <div class="relative w-full overflow-auto">
+        <table class="w-full caption-bottom text-sm">
+          <thead class="border-b">
+          <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+            <th
+              class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+              Name
+            </th>
+            <th
+              class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+              Status
+            </th>
+            <th
+              class="hidden md:table-cell h-10 px-2 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+              Description
+            </th>
+            <th
+              class="hidden md:table-cell h-10 px-2 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+              Created at
+            </th>
+            <th
+              class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+              <span class="sr-only">Actions</span></th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (item of itemsPage.items; track item.id) {
+              <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                <td
+                  class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px] font-medium">
+                  {{ item.name }}
+                </td>
+                <td
+                  class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+                  <app-status-badge [status]="item.status"></app-status-badge>
+                </td>
+                <td
+                  class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px] hidden md:table-cell">
+                  {{ item.description }}
+                </td>
+                <td
+                  class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px] hidden md:table-cell">
+                  {{ item.createdAt | date:'medium' }}
+                </td>
+                <td class="p-2 align-middle">
+                  <!-- Dropdown Menu -->
+                  <div class="dropdown-menu">
+                    <button
+                      (click)="toggleDropdown(item)"
+                      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9"
+                      aria-haspopup="true" type="button" id="radix-:Rkqkvfafkq:" aria-expanded="false"
+                      data-state="closed">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                           class="lucide lucide-ellipsis h-4 w-4">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                      </svg>
+                      <span class="sr-only">Toggle menu</span></button>
+                    <div data-side="bottom" data-align="end" role="menu" aria-orientation="vertical" data-state="open"
+                         data-radix-menu-content="" dir="ltr" id="radix-:RkqkvfafkqH1:"
+                         class="min-w-[6rem] z-40 absolute right-0 bg-white shadow-lg border rounded" tabindex="-1"
+                         data-orientation="vertical"
+                         *ngIf="dropdownOpenItem === item.id">
+                      <div class="px-2 py-1.5 text-sm font-semibold">Actions</div>
+                      <a [routerLink]="['/items/' + item.id]">
+                        <div role="menuitem"
+                             class="relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                             tabindex="-1" data-orientation="vertical" data-radix-collection-item="">Open
+                        </div>
+                      </a>
+                      <div role="menuitem"
+                           (click)="editItem(item)"
+                           class="cursor-pointer relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                           tabindex="-1" data-orientation="vertical" data-radix-collection-item="">Edit
+                      </div>
+                      <div role="menuitem"
+                           (click)="deleteItem(item)"
+                           class="cursor-pointer relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                           type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:re:"
+                           data-state="closed" tabindex="-1" data-orientation="vertical" data-radix-collection-item="">
+                        Delete
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="flex items-center p-6 pt-0">
+      <div class="inline-flex">
+        <button
+          class="flex h-10 w-10 items-center justify-center rounded-md border hover:bg-gray-100 mr-2 md:mr-4"
+          [disabled]="page == 1"
+          [ngClass]="[page == 1 ? 'text-gray-300' : '']"
+          (click)="changePage(itemsPage.currentPage - 1)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+               data-slot="icon" class="w-4">
+            <path fill-rule="evenodd"
+                  d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+                  clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <div class="text-sm text-muted-foreground flex h-10 items-center justify-center rounded-md">Page<!-- -->
+          {{ itemsPage.currentPage }}
+        </div>
+
+        <button
+          class="flex h-10 w-10 items-center justify-center rounded-md border hover:bg-gray-100 ml-2 md:ml-4"
+          [disabled]="page == itemsPage.totalPages"
+          [ngClass]="[page == itemsPage.totalPages ? 'text-gray-300' : '']"
+          (click)="changePage(itemsPage.currentPage + 1)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+               data-slot="icon" class="w-4">
+            <path fill-rule="evenodd"
+                  d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
+                  clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+      </div>
+    </div>
   }
-} @placeholder (minimum 1s) {
-  todo: Skeleton
+} @placeholder (minimum 0.2s) {
+  <div class="flex flex-col space-y-3 p-4 pb-8">
+    <div class="space-y-4 ml-4">
+      <div class="animate-pulse rounded-md bg-slate-800/10 h-4 w-[250px]"></div>
+      <div class="animate-pulse rounded-md bg-slate-800/10 h-4 w-[250px]"></div>
+      <div class="animate-pulse rounded-md bg-slate-800/10 h-4 w-[200px]"></div>
+    </div>
+  </div>
 }

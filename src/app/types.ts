@@ -11,7 +11,8 @@ export type Item = {
   name: string,
   description: string,
   status: number,
-  youtubeUrl: string | null
+  youtubeUrl: string | null,
+  createdAt: Date | null
 }
 
 export type ItemDetail = {
