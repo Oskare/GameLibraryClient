@@ -23,4 +23,8 @@ export class ItemsService {
 
     return this.http.get<ItemPage>(this.itemsUrl + "?" + newParams.toString());
   }
+
+  deleteItem(id: number) {
+    return this.http.delete<ItemPage>(this.itemsUrl + id);
+  }
 }

@@ -1,11 +1,17 @@
 import {Component, HostListener} from '@angular/core';
 import {ItemsService} from '../../services/items.service';
 import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
-import {ItemPage} from '../../models/item'
+import {Item, ItemPage} from '../../models/item'
 import {StatusBadgeComponent} from '../../ui/status-badge/status-badge.component';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {debounceTime} from 'rxjs';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
+import {
+  ItemDeleteModalComponent
+} from '../../modals/item-delete-modal/item-delete-modal.component';
+
 
 @Component({
   selector: 'app-items',
@@ -18,7 +24,8 @@ import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
     RouterLink,
     FormsModule,
     ReactiveFormsModule,
-    NgClass
+    NgClass,
+    MatDialogModule,
   ],
   templateUrl: './items.component.html',
   styleUrl: './items.component.css'
@@ -28,7 +35,8 @@ export class ItemsComponent {
   constructor(
     private itemsService: ItemsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
   }
 
@@ -98,9 +106,21 @@ export class ItemsComponent {
     this.dropdownOpenItem = null;
   }
 
-  deleteItem(item: any) {
-    console.log('Delete:', item);
+  deleteItem(item: Item) {
     this.dropdownOpenItem = null;
+
+    this.dialog
+      .open(ItemDeleteModalComponent)
+      .afterClosed()
+      .subscribe(result => {
+        if (result === ItemModalActions.Delete) {
+          this.itemsService.deleteItem(item.id).subscribe({
+              next: _ => this.loadItems(),
+              error: error => console.log(error),
+            }
+          );
+        }
+      });
   }
 
   // Close the dropdown if clicked outside
@@ -111,3 +131,8 @@ export class ItemsComponent {
     }
   }
 }
+
+export enum ItemModalActions {
+  Delete = 'delete',
+}
+
