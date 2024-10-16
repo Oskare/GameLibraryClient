@@ -1,7 +1,7 @@
 import {Component, HostListener} from '@angular/core';
-import {ItemsService} from '../services/items.service';
+import {ItemsService} from '../../services/items.service';
 import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
-import {ItemPage} from '../types'
+import {ItemPage} from '../../models/item'
 import {StatusBadgeComponent} from '../../ui/status-badge/status-badge.component';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {debounceTime} from 'rxjs';
