@@ -6,11 +6,9 @@ import {StatusBadgeComponent} from '../../ui/status-badge/status-badge.component
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {debounceTime} from 'rxjs';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatDialog} from '@angular/material/dialog';
-import {
-  ItemDeleteModalComponent
-} from '../../modals/item-delete-modal/item-delete-modal.component';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {ItemDeleteModalComponent} from '../../modals/item-delete-modal/item-delete-modal.component';
+import {ItemEditModalComponent} from '../../modals/item-edit-modal/item-edit-modal.component';
 
 
 @Component({
@@ -101,9 +99,22 @@ export class ItemsComponent {
     this.dropdownOpenItem = (this.dropdownOpenItem == item.id ? null : item.id);
   }
 
-  editItem(item: any) {
-    console.log('Edit:', item);
+  editItem(item: Item) {
     this.dropdownOpenItem = null;
+
+    this.dialog
+      .open(ItemEditModalComponent, {
+        data: item
+      })
+      .afterClosed()
+      .subscribe(result => {
+        if (result.action === ItemModalActions.Edit) {
+          this.itemsService.updateItem(item.id, result.model).subscribe({
+            next: result => this.loadItems(),
+            error: error => console.log(error),
+          });
+        }
+      });
   }
 
   deleteItem(item: Item) {
@@ -134,5 +145,5 @@ export class ItemsComponent {
 
 export enum ItemModalActions {
   Delete = 'delete',
+  Edit = 'edit',
 }
-

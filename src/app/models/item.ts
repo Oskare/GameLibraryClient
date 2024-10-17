@@ -20,3 +20,9 @@ export type ItemDetail = {
   itemId: number,
   detail: string
 }
+
+export type ItemUpdateModel = {
+  name: string,
+  description: string,
+  youtubeUrl: string | null,
+}
