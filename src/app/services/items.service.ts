@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {ItemPage, ItemUpdateModel} from '../models/item';
+import {ItemCreateModel, ItemPage, ItemUpdateModel} from '../models/item';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
@@ -22,6 +22,10 @@ export class ItemsService {
     const newParams = new URLSearchParams(params);
 
     return this.http.get<ItemPage>(this.itemsUrl + "?" + newParams.toString());
+  }
+
+  createItem(itemCreateModel: ItemCreateModel) {
+    return this.http.post(this.itemsUrl, itemCreateModel);
   }
 
   updateItem(id: number, itemUpdateModel: ItemUpdateModel) {

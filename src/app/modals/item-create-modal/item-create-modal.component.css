@@ -1,0 +1,9 @@
+.slate-button {
+  background-color: #0f172a; /* Red background */
+  color: white !important; /* White text */
+}
+
+.slate-button:hover {
+  background-color: #0f172ae6; /* Darker red on hover */
+  color: white;
+}

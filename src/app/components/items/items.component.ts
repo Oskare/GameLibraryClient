@@ -9,6 +9,7 @@ import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {ItemDeleteModalComponent} from '../../modals/item-delete-modal/item-delete-modal.component';
 import {ItemEditModalComponent} from '../../modals/item-edit-modal/item-edit-modal.component';
+import {ItemCreateModalComponent} from '../../modals/item-create-modal/item-create-modal.component';
 
 
 @Component({
@@ -99,6 +100,20 @@ export class ItemsComponent {
     this.dropdownOpenItem = (this.dropdownOpenItem == item.id ? null : item.id);
   }
 
+  createItem() {
+    this.dialog
+      .open(ItemCreateModalComponent)
+      .afterClosed()
+      .subscribe(result => {
+        if (result.action === ItemModalActions.Create) {
+          this.itemsService.createItem(result.model).subscribe({
+            next: result => this.loadItems(),
+            error: error => console.log(error)
+          })
+        }
+      });
+  }
+
   editItem(item: Item) {
     this.dropdownOpenItem = null;
 
@@ -146,4 +161,5 @@ export class ItemsComponent {
 export enum ItemModalActions {
   Delete = 'delete',
   Edit = 'edit',
+  Create = 'create'
 }

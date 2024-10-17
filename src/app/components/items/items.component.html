@@ -20,8 +20,8 @@
     </div>
     <button
       class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
-      type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:R9kvfafkq:"
-      data-state="closed">Create New Item
+      type="button"
+      (click)="createItem()">Create New Item
     </button>
   </div>
 </div>
@@ -95,7 +95,7 @@
                          data-orientation="vertical"
                          *ngIf="dropdownOpenItem === item.id">
                       <div class="px-2 py-1.5 text-sm font-semibold">Actions</div>
-                      <a [routerLink]="['/items/' + item.id]">
+                      <a [routerLink]="['/items/', item.id]">
                         <div role="menuitem"
                              class="relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                              tabindex="-1" data-orientation="vertical" data-radix-collection-item="">Open
@@ -168,15 +168,3 @@
     </div>
   </div>
 }
-
-<!--
-                  <EditItemFormModal item={item}>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                  </EditItemFormModal>
-
-                  <DeleteItemFormModal itemId={item.id}>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                  </DeleteItemFormModal>
--->
-
-

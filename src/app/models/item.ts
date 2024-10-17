@@ -21,6 +21,12 @@ export type ItemDetail = {
   detail: string
 }
 
+export type ItemCreateModel = {
+  name: string,
+  description: string,
+  youtubeUrl: string | null,
+}
+
 export type ItemUpdateModel = {
   name: string,
   description: string,
