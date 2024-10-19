@@ -161,5 +161,7 @@ export class ItemsComponent {
 export enum ItemModalActions {
   Delete = 'delete',
   Edit = 'edit',
-  Create = 'create'
+  Create = 'create',
+  CreateDetail = 'createDetail',
+  DeleteDetail = 'deleteDetail'
 }

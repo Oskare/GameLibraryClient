@@ -5,6 +5,7 @@ import {RegisterComponent} from './components/register/register.component';
 import {ItemsComponent} from './components/items/items.component';
 import {LayoutComponent} from './components/layout/layout.component';
 import {SettingsComponent} from './components/settings/settings.component';
+import {ItemDetailComponent} from './components/items/item-detail/item-detail.component';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,11 @@ export const routes: Routes = [
         path: 'items',
         component: ItemsComponent,
         title: 'Items',
+      },
+      {
+        path: 'items/:id',
+        component: ItemDetailComponent,
+        title: 'Item',
       },
       {
         path: 'settings',

@@ -18,7 +18,8 @@ export type Item = {
 export type ItemDetail = {
   id: number,
   itemId: number,
-  detail: string
+  detail: string,
+  createdAt: Date | null
 }
 
 export type ItemCreateModel = {

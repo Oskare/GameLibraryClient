@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {ItemCreateModel, ItemPage, ItemUpdateModel} from '../models/item';
+import {Item, ItemCreateModel, ItemDetail, ItemPage, ItemUpdateModel} from '../models/item';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
@@ -24,6 +24,10 @@ export class ItemsService {
     return this.http.get<ItemPage>(this.itemsUrl + "?" + newParams.toString());
   }
 
+  getItem(id: number) {
+    return this.http.get<Item>(this.itemsUrl + id);
+  }
+
   createItem(itemCreateModel: ItemCreateModel) {
     return this.http.post(this.itemsUrl, itemCreateModel);
   }
@@ -34,5 +38,17 @@ export class ItemsService {
 
   deleteItem(id: number) {
     return this.http.delete<ItemPage>(this.itemsUrl + id);
+  }
+
+  getItemDetails(itemId: number) {
+    return this.http.get<ItemDetail[]>(this.itemsUrl + itemId + "/details");
+  }
+
+  createItemDetail(itemId: number, detail: string) {
+    return this.http.post(this.itemsUrl + itemId + "/details", detail);
+  }
+
+  deleteItemDetail(itemId: number, detailId: number) {
+    return this.http.delete(this.itemsUrl + itemId + "/details/" + detailId);
   }
 }

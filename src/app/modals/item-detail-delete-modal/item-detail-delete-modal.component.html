@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Are you absolutely sure?</h1>
+<div mat-dialog-content>
+  <p>This action cannot be undone. This will permanently delete the detail.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-stroked-button [mat-dialog-close]="true">Cancel</button>
+  <button mat-stroked-button class="red-button" [mat-dialog-close]="true" (click)="deleteDetail()">Delete</button>
+</div>

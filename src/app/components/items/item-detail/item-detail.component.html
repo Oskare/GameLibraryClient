@@ -1,0 +1,252 @@
+<div class="flex min-h-screen w-full flex-col bg-muted/40">
+  <div class="flex flex-col sm:gap-4 sm:py-4">
+    <header
+      class="hidden sm:block sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+      <nav aria-label="breadcrumb" class="hidden md:flex">
+        <ol class="flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
+          <li class="inline-flex items-center gap-1.5">
+            <a class="transition-colors hover:text-foreground"
+               [routerLink]="['/items']">
+              Items
+            </a>
+          </li>
+          <li role="presentation" aria-hidden="true" class="[&amp;>svg]:size-3.5">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </li>
+          <li class="inline-flex items-center gap-1.5">
+            <span role="link" aria-disabled="true" aria-current="page"
+                  class="font-normal text-foreground">{{ item?.name }}</span>
+          </li>
+        </ol>
+      </nav>
+    </header>
+    <main class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+      <div class="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
+        <div class="flex items-center gap-4"><a [routerLink]="['/items']">
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-7 w-7">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="lucide lucide-chevron-left h-4 w-4">
+              <path d="m15 18-6-6 6-6"></path>
+            </svg>
+            <span class="sr-only">Back</span></button>
+        </a>
+          <h1 class="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+            {{ item?.name }}
+          </h1>
+          <app-status-badge [status]="item?.status"></app-status-badge>
+          <div class="hidden items-center gap-2 md:ml-auto md:flex">
+            <button
+              class="text-white inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow h-8 rounded-md px-3 text-xs bg-green-500 hover:bg-green-700"
+              (click)="setFinished()"
+            >
+              Set Finished
+            </button>
+          </div>
+        </div>
+        <div class="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
+          <div class="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+            <div class="rounded-xl border bg-card text-card-foreground shadow">
+              <div class="flex flex-col space-y-1.5 p-6">
+                <h3 class="font-semibold leading-none tracking-tight flex justify-between">
+                  <div>Details</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="lucide lucide-square-pen hover:cursor-pointer"
+                       (click)="editItem()">
+                    <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path
+                      d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path>
+                  </svg>
+                </h3>
+              </div>
+              <div class="p-6 pt-0">
+                <div class="grid gap-6">
+                  <div class="grid gap-3">
+                    <label
+                      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      for="name">Name</label>
+                    <input
+                      class="flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 w-full"
+                      id="name"
+                      type="text"
+                      [value]="item?.name"
+                      readonly>
+                  </div>
+                  <div class="grid gap-3">
+                    <label
+                      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      for="description">
+                      Description
+                    </label>
+                    <textarea
+                      class="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 min-h-32"
+                      id="description"
+                      [value]="item?.description"
+                      readonly>
+                    </textarea>
+                  </div>
+                  <div class="grid gap-3">
+                    <label
+                      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      for="description">
+                      Created
+                    </label>
+                    <input
+                      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                      readonly=""
+                      type="text"
+                      [value]="item?.createdAt | date:'medium'"></div>
+                </div>
+              </div>
+            </div>
+            <div class="rounded-xl border bg-card text-card-foreground shadow">
+              <div class="flex flex-col space-y-1.5 p-6">
+                <h3 class="font-semibold leading-none tracking-tight">
+                  Additional details
+                </h3>
+                <p class="text-sm text-muted-foreground">Lipsum dolor sit amet, consectetur adipiscing elit</p></div>
+              <div class="p-6 pt-0">
+                <div class="relative w-full overflow-auto">
+                  <table class="w-full caption-bottom text-sm">
+                    <thead class="[&amp;_tr]:border-b">
+                    <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                      <th
+                        class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+                        Detail
+                      </th>
+                      <th
+                        class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+                        Created At
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody class="[&amp;_tr:last-child]:border-0">
+                      @for (detail of itemDetails; track detail.id) {
+                        <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                          <td
+                            class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px] font-semibold">
+                            {{ detail.detail }}
+                          </td>
+                          <td
+                            class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+                            {{ detail.createdAt | date:'medium' }}
+                          </td>
+                          <td
+                            class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="lucide lucide-trash2 hover:cursor-pointer" type="button" aria-haspopup="dialog"
+                                 aria-expanded="false" aria-controls="radix-:rc:" data-state="closed"
+                                 (click)="deleteDetail(detail.id)">
+                              <path d="M3 6h18"></path>
+                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                              <line x1="10" x2="10" y1="11" y2="17"></line>
+                              <line x1="14" x2="14" y1="11" y2="17"></line>
+                            </svg>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="flex items-center justify-center border-t p-4">
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs gap-1"
+                  type="button"
+                  (click)="createDetail()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="lucide lucide-circle-plus h-3.5 w-3.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 12h8"></path>
+                    <path d="M12 8v8"></path>
+                  </svg>
+                  Add details
+                </button>
+              </div>
+            </div>
+            <div class="rounded-xl border bg-card text-card-foreground shadow overflow-hidden">
+              <div class="flex flex-col space-y-1.5 p-6">
+                <h3 class="font-semibold leading-none tracking-tight">
+                  Trailer
+                </h3>
+              </div>
+              <div class="p-6 pt-0">
+                <p *ngIf="!item || !item.youtubeUrl || item.youtubeUrl.length <= 0"
+                   class="text-sm text-center">
+                  No trailer saved
+                </p>
+                <youtube-player
+                  class="w-full"
+                  height="315"
+                  width="450"
+                  [videoId]="youtubeVideoId">
+                </youtube-player>
+              </div>
+            </div>
+          </div>
+          <div class="grid auto-rows-max items-start gap-4 lg:gap-8">
+            <div class="rounded-xl border bg-card text-card-foreground shadow" x-chunk="dashboard-07-chunk-3">
+              <div class="flex flex-col space-y-1.5 p-6"><h3 class="font-semibold leading-none tracking-tight">Item
+                Status</h3></div>
+              <div class="p-6 pt-0">
+                <div class="grid gap-6">
+                  <div class="grid gap-3"><label
+                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    for="status">Status</label>
+                    <button type="button" role="combobox" aria-controls="radix-:rl:" aria-expanded="false"
+                            aria-autocomplete="none" dir="ltr" data-state="closed"
+                            class="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&amp;>span]:line-clamp-1"
+                            id="status" aria-label="Select status"><span style="pointer-events: none;">Backlog</span>
+                      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                           class="h-4 w-4 opacity-50" aria-hidden="true">
+                        <path
+                          d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
+                          fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="rounded-xl border bg-card text-card-foreground shadow" x-chunk="dashboard-07-chunk-5">
+              <div class="flex flex-col space-y-1.5 p-6"><h3 class="font-semibold leading-none tracking-tight">Buy on
+                Steam</h3></div>
+              <div class="p-6 pt-0 min-w-[260px]">
+                <div class="relative w-full overflow-auto">
+                  <table class="w-full caption-bottom text-sm">
+                    <tbody class="[&amp;_tr:last-child]:border-0">
+                    <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                      <td
+                        class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px] font-semibold">
+                        <a href="https://store.steampowered.com/search/?term=Baldur's%20Gate%203" target="_blank"
+                           data-state="closed"><img alt="Baldur's Gate 3" loading="lazy" width="120" height="45"
+                                                    decoding="async" data-nimg="1" class="min-w-[8rem]"
+                                                    srcset="/_next/image?url=https%3A%2F%2Fshared.akamai.steamstatic.com%2Fstore_item_assets%2Fsteam%2Fapps%2F1086940%2Fcapsule_sm_120.jpg%3Ft%3D1725654125&amp;w=128&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fshared.akamai.steamstatic.com%2Fstore_item_assets%2Fsteam%2Fapps%2F1086940%2Fcapsule_sm_120.jpg%3Ft%3D1725654125&amp;w=256&amp;q=75 2x"
+                                                    src="/_next/image?url=https%3A%2F%2Fshared.akamai.steamstatic.com%2Fstore_item_assets%2Fsteam%2Fapps%2F1086940%2Fcapsule_sm_120.jpg%3Ft%3D1725654125&amp;w=256&amp;q=75"
+                                                    style="color: transparent;"></a></td>
+                      <td
+                        class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+                        $59.99
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
