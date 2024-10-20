@@ -41,7 +41,7 @@ export class ItemsComponent {
 
   itemsPage: ItemPage | null = null;
   searchQuery: string | null = null;
-  page: number | null = null;
+  page: number = 1;
 
   searchControl = new FormControl();  // Reactive form control for input
   dropdownOpenItem: number | null = null;

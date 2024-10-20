@@ -33,3 +33,10 @@ export type ItemUpdateModel = {
   description: string,
   youtubeUrl: string | null,
 }
+
+export type SteamDetail = {
+  id: string;
+  name: string;
+  img: string;
+  price: string;
+}

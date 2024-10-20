@@ -144,8 +144,8 @@
 
         <button
           class="flex h-10 w-10 items-center justify-center rounded-md border hover:bg-gray-100 ml-2 md:ml-4"
-          [disabled]="page == itemsPage.totalPages"
-          [ngClass]="[page == itemsPage.totalPages ? 'text-gray-300' : '']"
+          [disabled]="page >= itemsPage.totalPages "
+          [ngClass]="[page >= itemsPage.totalPages ? 'text-gray-300' : '']"
           (click)="changePage(itemsPage.currentPage + 1)"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"

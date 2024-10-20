@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {Item, ItemCreateModel, ItemDetail, ItemPage, ItemUpdateModel} from '../models/item';
+import {Item, ItemCreateModel, ItemDetail, ItemPage, ItemUpdateModel, SteamDetail} from '../models/item';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
@@ -38,6 +38,10 @@ export class ItemsService {
 
   deleteItem(id: number) {
     return this.http.delete<ItemPage>(this.itemsUrl + id);
+  }
+
+  getSteamDetails(id: number) {
+    return this.http.get<SteamDetail[]>(this.itemsUrl + id + "/steam-details");
   }
 
   getItemDetails(itemId: number) {

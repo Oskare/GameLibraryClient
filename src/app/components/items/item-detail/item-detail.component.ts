@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ItemsService} from '../../../services/items.service';
-import {Item, ItemDetail} from '../../../models/item';
+import {Item, ItemDetail, SteamDetail} from '../../../models/item';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {StatusBadgeComponent} from '../../../ui/status-badge/status-badge.component';
 import {ItemEditModalComponent} from '../../../modals/item-edit-modal/item-edit-modal.component';
@@ -9,11 +9,14 @@ import {MatDialog} from '@angular/material/dialog';
 import {
   ItemDetailCreateModalComponent
 } from '../../../modals/item-detail-create-modal/item-detail-create-modal.component';
-import {DatePipe, NgIf} from '@angular/common';
+import {DatePipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {
   ItemDetailDeleteModalComponent
 } from '../../../modals/item-detail-delete-modal/item-detail-delete-modal.component';
 import {YouTubePlayer} from '@angular/youtube-player';
+import {FormsModule} from '@angular/forms';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-item-detail',
@@ -23,7 +26,12 @@ import {YouTubePlayer} from '@angular/youtube-player';
     StatusBadgeComponent,
     DatePipe,
     NgIf,
-    YouTubePlayer
+    YouTubePlayer,
+    NgForOf,
+    FormsModule,
+    NgOptimizedImage,
+    MatTooltipModule,
+    MatButton
   ],
   templateUrl: './item-detail.component.html',
   styleUrl: './item-detail.component.css'
@@ -34,6 +42,11 @@ export class ItemDetailComponent {
   item: Item | undefined = undefined;
   itemDetails: ItemDetail[] = [];
   youtubeVideoId: string | undefined;
+
+  selectedStatus: string | undefined;
+  statusOptions: string[] = ['Backlog', 'In Progress', 'Finished'];
+
+  steamDetails: SteamDetail[] = [];
 
   constructor(private itemsService: ItemsService,
               private route: ActivatedRoute,
@@ -55,9 +68,15 @@ export class ItemDetailComponent {
       next: results => {
         this.item = results
 
+        this.selectedStatus = this.resolveStatus(this.item.status);
+
         if (this.item.youtubeUrl)
           this.youtubeVideoId = new URL(this.item!.youtubeUrl!).searchParams.get('v') ?? undefined
-        console.log(this.youtubeVideoId);
+
+        this.itemsService.getSteamDetails(this.item.id).subscribe({
+          next: results => this.steamDetails = results,
+          error: error => console.log(error)
+        });
       },
       error: error => console.log(error),
     });
@@ -71,8 +90,20 @@ export class ItemDetailComponent {
   }
 
   setFinished() {
+    this.setStatus(2);
+  }
+
+  selectStatus() {
+    if (this.selectedStatus) {
+      const status = this.statusOptions.indexOf(this.selectedStatus);
+      this.setStatus(status);
+    }
+  }
+
+  setStatus(status: number) {
     if (this.item) {
-      this.item.status = 2;
+      this.item.status = status;
+      this.selectedStatus = this.resolveStatus(this.item.status);
       this.itemsService.updateItem(this.item.id, this.item).subscribe({
         error: error => console.log(error),
       });
@@ -124,4 +155,10 @@ export class ItemDetailComponent {
         }
       });
   }
+
+  resolveStatus(status: number): string {
+    return this.statusOptions[status];
+  }
+
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

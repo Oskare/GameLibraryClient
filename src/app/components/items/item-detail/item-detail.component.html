@@ -40,7 +40,7 @@
             {{ item?.name }}
           </h1>
           <app-status-badge [status]="item?.status"></app-status-badge>
-          <div class="hidden items-center gap-2 md:ml-auto md:flex">
+          <div *ngIf="item?.status !== 2" class="hidden items-center gap-2 md:ml-auto md:flex">
             <button
               class="text-white inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow h-8 rounded-md px-3 text-xs bg-green-500 hover:bg-green-700"
               (click)="setFinished()"
@@ -195,50 +195,71 @@
             </div>
           </div>
           <div class="grid auto-rows-max items-start gap-4 lg:gap-8">
-            <div class="rounded-xl border bg-card text-card-foreground shadow" x-chunk="dashboard-07-chunk-3">
-              <div class="flex flex-col space-y-1.5 p-6"><h3 class="font-semibold leading-none tracking-tight">Item
-                Status</h3></div>
+            <div class="rounded-xl border bg-card text-card-foreground shadow">
+              <div class="flex flex-col space-y-1.5 p-6">
+                <h3 class="font-semibold leading-none tracking-tight">
+                  Item Status
+                </h3>
+              </div>
               <div class="p-6 pt-0">
                 <div class="grid gap-6">
-                  <div class="grid gap-3"><label
-                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    for="status">Status</label>
-                    <button type="button" role="combobox" aria-controls="radix-:rl:" aria-expanded="false"
-                            aria-autocomplete="none" dir="ltr" data-state="closed"
-                            class="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&amp;>span]:line-clamp-1"
-                            id="status" aria-label="Select status"><span style="pointer-events: none;">Backlog</span>
-                      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                           class="h-4 w-4 opacity-50" aria-hidden="true">
-                        <path
-                          d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
-                          fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
-                      </svg>
-                    </button>
+                  <div class="grid gap-3">
+                    <label
+                      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      for="status-dropdown">
+                      Status
+                    </label>
+                    <select
+                      id="status-dropdown"
+                      class="flex w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-2 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&amp;>span]:line-clamp-1"
+                      [(ngModel)]="selectedStatus"
+                      (ngModelChange)="selectStatus()">
+                      <option *ngFor="let option of statusOptions" [value]="option">{{ option }}</option>
+                    </select>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="rounded-xl border bg-card text-card-foreground shadow" x-chunk="dashboard-07-chunk-5">
-              <div class="flex flex-col space-y-1.5 p-6"><h3 class="font-semibold leading-none tracking-tight">Buy on
-                Steam</h3></div>
+            <div class="rounded-xl border bg-card text-card-foreground shadow">
+              <div class="flex flex-col space-y-1.5 p-6">
+                <h3 class="font-semibold leading-none tracking-tight">
+                  Buy on Steam
+                </h3>
+              </div>
               <div class="p-6 pt-0 min-w-[260px]">
                 <div class="relative w-full overflow-auto">
-                  <table class="w-full caption-bottom text-sm">
+                  <p *ngIf="steamDetails.length <= 0" class="text-sm">Not found...</p>
+
+                  <table *ngIf="steamDetails.length > 0"
+                         class="w-full caption-bottom text-sm">
                     <tbody class="[&amp;_tr:last-child]:border-0">
-                    <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                      <td
-                        class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px] font-semibold">
-                        <a href="https://store.steampowered.com/search/?term=Baldur's%20Gate%203" target="_blank"
-                           data-state="closed"><img alt="Baldur's Gate 3" loading="lazy" width="120" height="45"
-                                                    decoding="async" data-nimg="1" class="min-w-[8rem]"
-                                                    srcset="/_next/image?url=https%3A%2F%2Fshared.akamai.steamstatic.com%2Fstore_item_assets%2Fsteam%2Fapps%2F1086940%2Fcapsule_sm_120.jpg%3Ft%3D1725654125&amp;w=128&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fshared.akamai.steamstatic.com%2Fstore_item_assets%2Fsteam%2Fapps%2F1086940%2Fcapsule_sm_120.jpg%3Ft%3D1725654125&amp;w=256&amp;q=75 2x"
-                                                    src="/_next/image?url=https%3A%2F%2Fshared.akamai.steamstatic.com%2Fstore_item_assets%2Fsteam%2Fapps%2F1086940%2Fcapsule_sm_120.jpg%3Ft%3D1725654125&amp;w=256&amp;q=75"
-                                                    style="color: transparent;"></a></td>
-                      <td
-                        class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
-                        $59.99
-                      </td>
-                    </tr>
+                      @for (steamDetail of steamDetails; track steamDetail.id) {
+                        <tr
+                          class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                          <td
+                            class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px] font-semibold">
+                            <a
+                              [href]="'https://store.steampowered.com/search/?term=' + encodeURIComponent(steamDetail.name)"
+                              target="_blank"
+                              [matTooltip]="steamDetail.name">
+                              <img
+                                [ngSrc]="steamDetail.img"
+                                [alt]="steamDetail.name"
+                                alt="Baldur's Gate 3"
+                                loading="lazy"
+                                width="120"
+                                height="45"
+                                decoding="async"
+                                data-nimg="1"
+                                class="min-w-[8rem]">
+                            </a>
+                          </td>
+                          <td
+                            class="p-2 align-middle [&amp;:has([role=checkbox])]:pr-0 [&amp;>[role=checkbox]]:translate-y-[2px]">
+                            {{ steamDetail.price !== '' ? steamDetail.price : '-' }}
+                          </td>
+                        </tr>
+                      }
                     </tbody>
                   </table>
                 </div>
